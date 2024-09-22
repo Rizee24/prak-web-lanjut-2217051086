@@ -44,13 +44,13 @@
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
     <div class="profile-container text-center">
         <div class="profile-pic">
-        <img src="{{ asset('storage/images/foto-profil.jpg') }}" alt="Foto Profil">
+        <img src="{{ asset('assets/img/foto-profil.jpg') }}" alt="Foto Profil">
         </div>
         
         <div class="profile-info">
-            <div class="info-box"><?= $nama ?></div>
-            <div class="info-box"><?= $kelas ?></div>
-            <div class="info-box"><?= $npm ?></div>
+            <div class="info-box">{{ $data['nama'] }}</div>
+            <div class="info-box">{{ $data['kelas'] }}</div>
+            <div class="info-box">{{ $data['npm'] }}</div>
         </div>
     </div>
 </body>
