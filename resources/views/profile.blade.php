@@ -48,9 +48,9 @@
         </div>
         
         <div class="profile-info">
-            <div class="info-box">{{ $data['nama'] }}</div>
-            <div class="info-box">{{ $data['kelas'] }}</div>
-            <div class="info-box">{{ $data['npm'] }}</div>
+            <div class="info-box">Nama: {{ $nama }}</div>
+            <div class="info-box">Kelas: {{ $nama_kelas ?? 'Kelas tidak ditemukan' }}</div>
+            <div class="info-box">NPM: {{ $npm }}</div>
         </div>
     </div>
 </body>
