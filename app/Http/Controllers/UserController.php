@@ -6,17 +6,44 @@ use App\Models\Kelas;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
-  public function create() {
-    return view('create_user', [
-        'kelas' => Kelas::all(),
-    ]);
-   }
+
+    public $userModel;
+    public $kelasModel;
+
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+        $this->kelasModel = new Kelas();
+    }
+
+    public function index()
+    {
+        $data = [
+            'title' => 'Create User',
+            'users' => $this->userModel->getUser(),
+        ];
+        return view('list_user', $data);
+}
+
+
+    public function create()
+    {
+        $kelas = $this->kelasModel->getKelas();
+    
+        $data = [
+            'title' => 'Create User',
+            'kelas' => $kelas,
+        ];
+    
+        return view('create_user', $data);
+    }
 
    public function store(Request $request)
 {
-    $validatedData = $request->validate([
+    $this->userModel->create([
         'nama' => 'required|string|max:255',
         'npm' => [
             'required',
@@ -32,14 +59,12 @@ class UserController extends Controller
         'npm.regex' => 'NPM hanya boleh terdiri dari angka.',
     ]);
 
-    $user = UserModel::create($validatedData);
-
-    return redirect()->route('user.profile', ['id' => $user->id]);
+    return redirect()->to('/user');
 }
 
 public function profile($id)
 {
-    $user = UserModel::find($id);
+    $user = $this->userModel::find($id);
     if (!$user) {
         return redirect()->route('user.create')->with('error', 'User not found');
     }
