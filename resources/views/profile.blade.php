@@ -44,7 +44,7 @@
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
     <div class="profile-container text-center">
         <div class="profile-pic">
-        <img src="{{ asset('assets/img/foto-profil.jpg') }}" alt="Foto Profil">
+        <img src="{{ asset('assets/img/pp kosong.png') }}" alt="Foto Profil">
         </div>
         
         <div class="profile-info">
