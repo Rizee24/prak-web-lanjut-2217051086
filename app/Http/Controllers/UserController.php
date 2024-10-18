@@ -43,20 +43,29 @@ class UserController extends Controller
 
    public function store(Request $request)
 {
-    $this->userModel->create([
+    $request->validate([
         'nama' => 'required|string|max:255',
-        'npm' => [
-            'required',
-            'string',
-            'max:10',
-            'min:10', 
-            'regex:/^[0-9]+$/', // Pastikan hanya angka yang diterima
-        ],
-        'kelas_id' => 'required|exists:kelas,id',
-    ], [
-        'npm.max' => 'NPM tidak boleh lebih dari 10 karakter.',
-        'npm.min' => 'NPM tidak boleh kurang dari 10 karakter',
-        'npm.regex' => 'NPM hanya boleh terdiri dari angka.',
+        'npm' => 'required|string|max:10',
+        'kelas_id' => 'required|integer',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $fotoPath = 'upload/img/logo laravel.jpg'; 
+
+    if ($request->hasFile('foto')) {
+        $foto = $request->file('foto');
+        // Menyimpan file foto di folder 'uploads'
+        $fotoPath = $foto->move('upload/img', $foto->getClientOriginalName());
+    } else {
+        // Jika tidak ada file yang diupload, set fotoPath menjadi null
+        $fotoPath = 'upload/img/logo laravel.jpg';
+    }
+
+    $this->userModel->create([
+        'nama' => $request->input('nama'),
+        'npm' => $request->input('npm'),
+        'kelas_id' => $request->input('kelas_id'),
+        'foto' => $fotoPath, // Menyimpan path foto
     ]);
 
     return redirect()->to('/user');
@@ -75,6 +84,25 @@ public function profile($id)
         'nama_kelas' => $user->kelas->nama_kelas ?? 'Kelas tidak ditemukan',
     ]);
 }
+
+public function show($id)
+{
+    $user = $this->userModel->getUser($id);
+
+    $data = [
+        'title' => 'profile',
+        'user' => $user,
+    ];
+
+    // Mengembalikan view profile dengan data user
+    return view('profile', [
+        'nama' => $user->nama,
+        'npm' => $user->npm,
+        'nama_kelas' => $user->kelas->nama_kelas ?? 'Kelas tidak ditemukan', // Menggunakan operator null coalescing
+        'foto' => $user->foto ?? 'upload/img/logo laravel.jpg'
+    ]);
+}
+
 
 }
 
