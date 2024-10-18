@@ -4,6 +4,13 @@
 <div class="form-container">
     <h1>{{ $title }}</h1>
     <ul class="list-unstyled">
+        <li class="form-group d-flex justify-content-center">
+            @if($user->foto)
+                <img src="{{ asset($user->foto) }}" alt="Foto {{ $user->nama }}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
+            @else
+                <img src="{{ asset('upload/img/logo laravel.jpg') }}" alt="Default Foto" style="width: 100px; height: auto; border-radius: 50%;">
+            @endif
+        </li>
         <li class="form-group">
             <strong>Nama:</strong> <span class="form-control-plaintext">{{ $user->nama }}</span>
         </li>

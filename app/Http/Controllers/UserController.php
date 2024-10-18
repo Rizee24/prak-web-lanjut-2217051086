@@ -55,10 +55,8 @@ class UserController extends Controller
     if ($request->hasFile('foto')) {
         $foto = $request->file('foto');
         // Menyimpan file foto di folder 'uploads'
-        $fotoPath = $foto->move('upload/img', $foto->getClientOriginalName());
-    } else {
-        // Jika tidak ada file yang diupload, set fotoPath menjadi null
-        $fotoPath = 'upload/img/logo laravel.jpg';
+        $fotoPath = 'upload/img/' . time() . '_' . $foto->getClientOriginalName();
+        $foto->move(public_path('upload/img'), $fotoPath);
     }
 
     $this->userModel->create([
@@ -127,14 +125,21 @@ public function update(Request $request, $id)
 {
     $user = UserModel::findOrFail($id);
 
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'npm' => 'required|string|max:10',
+        'kelas_id' => 'required|integer',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
     $user->nama = $request->nama;
     $user->npm = $request->npm;
     $user->kelas_id = $request->kelas_id;
 
     if ($request->hasFile('foto')){
-        $fileName = time() . '.' . $request->foto->extension();
-        $request->foto->move(public_path('upload'), $fileName);
-        $user->foto = 'upload/' . $fileName;
+        $fileName = time() . '_' . $request->foto->getClientOriginalName();
+        $request->foto->move(public_path('upload/img'), $fileName);
+        $user->foto = 'upload/img/' . $fileName;
     }
 
     $user->save();
