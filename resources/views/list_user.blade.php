@@ -15,10 +15,11 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">ID</th>
+                                    <th scope="col">Foto</th> <!-- New column for photo -->
                                     <th scope="col">Nama</th>
                                     <th scope="col">NPM</th>
                                     <th scope="col">Kelas</th>
-                                    <th scope="col">Aksi</th> <!-- Menambahkan kolom untuk aksi -->
+                                    <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,6 +29,13 @@
                                         <td>{{ $user->nama }}</td>
                                         <td>{{ $user->npm }}</td>
                                         <td>{{ $user->nama_kelas }}</td>
+                                        <td>
+                                            @if($user->foto)
+                                            <img src="{{ asset($user->foto) }}" alt="Foto {{ $user->nama }}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                                            @else
+                                                <img src="{{ asset('upload/img/logo laravel.jpg') }}" alt="Default Foto" style="width: 50px; height: auto; border-radius: 50%;">
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">Edit</a>
                                             <a href="{{ route('user.show', $user->id) }}" class="btn btn-info">Detail</a>
