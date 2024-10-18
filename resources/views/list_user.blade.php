@@ -9,6 +9,7 @@
                     <h4 class="mb-0 font-weight-bold">List User</h4>
                 </div>
                 <div class="card-body p-4">
+                <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Tambah Pengguna Baru</a>
                     <div class="table-responsive">
                         <table class="table table-striped table-hover align-middle text-center">
                             <thead class="thead-dark">
@@ -26,6 +27,7 @@
                                         <td>{{ $user->nama }}</td>
                                         <td>{{ $user->npm }}</td>
                                         <td>{{ $user->nama_kelas }}</td>
+                                        <td><a href="{{ route('user.show', $user->id) }}" class="btn btn-warning mb-3">Detail</a></td>
                                     </tr>
                                 @endforeach
                             </tbody>
